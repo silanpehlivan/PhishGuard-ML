@@ -190,8 +190,8 @@ Bu çalışma,
 **Veri Madenciliği Dersi** kapsamında hazırlanmıştır.
 
 ### Proje Ekibi
-- Semanur YILDIRIM
 - Şilan PEHLİVAN
+- Semanur YILDIRIM
 - İlayda ÖZTÜRK
 
 ### Ders Sorumlusu
