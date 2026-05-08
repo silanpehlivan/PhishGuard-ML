@@ -205,17 +205,6 @@ Bu proje, akademik ve eğitim amaçlı geliştirilmiş bir siber güvenlik çal�
 
 ---
 
-# ⭐ Katkı Sağlayın
-
-Projeye katkı sağlamak için:
-
-1. Fork oluşturun
-2. Yeni bir branch açın
-3. Geliştirmelerinizi yapın
-4. Pull Request gönderin
-
----
-
 # 📄 Lisans
 
 Bu proje eğitim ve akademik kullanım amaçlı paylaşılmıştır.
