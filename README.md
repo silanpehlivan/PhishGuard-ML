@@ -205,6 +205,8 @@ Bu proje, akademik ve eğitim amaçlı geliştirilmiş bir siber güvenlik çal�
 
 ---
 
-# 📄 Lisans
+## 📜 Lisans
 
-Bu proje eğitim ve akademik kullanım amaçlı paylaşılmıştır.
+Bu proje **MIT License** ile lisanslanmıştır. Detaylı bilgi için `LICENSE` dosyasını inceleyebilirsiniz.
+
+
