@@ -197,12 +197,13 @@ Bu proje, akademik ve eğitim amaçlı geliştirilmiş bir siber güvenlik çal�
 Bu proje **MIT License** ile lisanslanmıştır. Detaylı bilgi için `LICENSE` dosyasını inceleyebilirsiniz.
 
 
+
 ## 👩‍💻 Geliştiriciler
 
-Bu çalışma, **Bitlis Eren Üniversitesi – Bilgisayar Mühendisliği Bölümü** , **Veri Madenciliği Dersi** kapsamında aşağıda isimleri yer alan geliştiriciler tarafından hazırlanmıştır:
+Bu çalışma, **Bitlis Eren Üniversitesi – Bilgisayar Mühendisliği Bölümü**, **Veri Madenciliği Dersi** kapsamında aşağıda isimleri yer alan geliştiriciler tarafından hazırlanmıştır:
 
-- Şilan PEHLİVAN  
-- Semanur YILDIRIM  
-- İlayda ÖZTÜRK  
+- Şilan Pehlivan  
+- Semanur Yıldırım 
+- İlayda Öztürk  
 
 
