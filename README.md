@@ -202,8 +202,8 @@ Bu proje **MIT License** ile lisanslanmıştır. Detaylı bilgi için `LICENSE` 
 
 Bu çalışma, **Bitlis Eren Üniversitesi – Bilgisayar Mühendisliği Bölümü**, **Veri Madenciliği Dersi** kapsamında aşağıda isimleri yer alan geliştiriciler tarafından hazırlanmıştır:
 
-- Şilan Pehlivan  
-- Semanur Yıldırım 
-- İlayda Öztürk  
+- Şilan PEHLİVAN  
+- Semanur YILDIRIM 
+- İlayda ÖZTÜRK  
 
 
