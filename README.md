@@ -2,20 +2,33 @@
 
 # PhishGuard ML
 
-**Oltalama analizi · Model karşılaştırması · Açıklanabilir risk göstergeleri**
+### Bir bağlantının ardındaki riski görünür kıl.
 
-![Python](https://img.shields.io/badge/Python-2563eb?style=flat-square)
-![FastAPI](https://img.shields.io/badge/FastAPI-0891b2?style=flat-square)
-![React](https://img.shields.io/badge/React-7c3aed?style=flat-square)
-[![MIT](https://img.shields.io/badge/License-MIT-16a34a?style=flat-square)](LICENCE)
+![Python](https://img.shields.io/badge/Python-2563eb?style=for-the-badge)
+![FastAPI](https://img.shields.io/badge/FastAPI-0891b2?style=for-the-badge)
+![React](https://img.shields.io/badge/React-7c3aed?style=for-the-badge)
+[![MIT](https://img.shields.io/badge/MIT-16a34a?style=for-the-badge)](LICENCE)
 
-30 özellikli sınıflandırma modellerini React arayüzü ve FastAPI servisleriyle birleştiren akademik siber güvenlik projesi.
+URL ve web sitesi özelliklerini makine öğrenmesi modelleriyle inceleyerek oltalama riskini değerlendiren güvenlik prototipi.
 
-[Mimari](#mimari-ve-karar-akışı) · [Deney sonuçları](#deney-sonuçları) · [Kurulum](#yerel-kurulum) · [Sınırlar](#kapsam-ve-sınırlar)
+**Makine öğrenmesiyle oltalama analizi**
+
+[Projeyi keşfet](https://github.com/silanpehlivan/PhishGuard-ML/tree/main) · [Kurulum ve ayrıntılar](#projeyi-çalıştırmak-ve-incelemek)
 
 </div>
 
 ---
+
+## İçeride neler var?
+
+- **01** · 30 özellik üzerinden risk analizi
+- **02** · Random Forest, Extra Trees ve stacking karşılaştırması
+- **03** · React arayüzüyle tahmin ve risk faktörlerinin sunumu
+
+## Projeyi çalıştırmak ve incelemek
+
+<details>
+<summary><strong>Kurulum, kod yapısı ve teknik notları aç</strong></summary>
 
 ## Problem ve yaklaşım
 
@@ -55,16 +68,15 @@ Aşağıdaki değerler [metrics.json](metrics.json) dosyasındaki kayıtlı dene
 
 Stacking için kayıtlı matris `[[946, 34], [19, 1212]]` şeklindedir. Kodun pozitif sınıf yorumuna göre yanlış pozitif oranı **34 / 980 = %3,47**’dir. Veri kümesinin etiket semantiği canlı kullanımdan önce ayrıca doğrulanmalıdır.
 
-<details>
-<summary><strong>Model karşılaştırma grafiği</strong></summary>
+
 
 ![Kayıtlı model metrikleri](report_figures/model_metrics_comparison.png)
 
 Grafik üretimi: [generate_report_figures.py](generate_report_figures.py). Sayısal sonuçların kaynağı yukarıdaki JSON dosyasıdır.
 
-</details>
 
-## Kodu incelemeye başlayın
+
+### Kodu incelemeye başlayın
 
 | Dosya | İncelenecek konu |
 |---|---|
@@ -98,7 +110,7 @@ Arayüz: `http://localhost:5173` · API belgeleri: `http://127.0.0.1:8000/docs`.
 
 Eğitimi tekrarlamak için depo kökünde `python train_models.py` çalıştırılır. Bu işlem mevcut model ve metrik dosyalarını yeniden yazar.
 
-## Kapsam ve sınırlar
+### Kapsam ve sınırlar
 
 - Veri seti metrikleri, canlı URL akışının doğruluğunu ölçmez; eğitim özellikleri ile tarayıcıda hazırlanan özelliklerin dağılımı farklıdır.
 - HTTPS göstergesi URL protokolünden türetilir; TLS sertifikası doğrulaması veya canlı sayfa taraması yapılmış olduğu anlamına gelmez.
@@ -111,6 +123,8 @@ Eğitimi tekrarlamak için depo kökünde `python train_models.py` çalıştır�
 
 Şilan PEHLİVAN · Semanur YILDIRIM · İlayda ÖZTÜRK  
 Ders sorumlusu: Dr. Öğr. Üyesi Emine AYAZ
+
+</details>
 
 ---
 
