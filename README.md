@@ -2,233 +2,117 @@
 
 # PhishGuard ML
 
-**Makine öğrenmesiyle oltalama analizi**
+**Oltalama analizi · Model karşılaştırması · Açıklanabilir risk göstergeleri**
 
 ![Python](https://img.shields.io/badge/Python-2563eb?style=flat-square)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0891b2?style=flat-square)
 ![React](https://img.shields.io/badge/React-7c3aed?style=flat-square)
-[![MIT License](https://img.shields.io/badge/License-MIT-16a34a?style=flat-square)](LICENCE)
+[![MIT](https://img.shields.io/badge/License-MIT-16a34a?style=flat-square)](LICENCE)
 
-URL ve web sitesi özelliklerini makine öğrenmesi modelleriyle inceleyerek oltalama riskini değerlendiren akademik güvenlik projesi.
+30 özellikli sınıflandırma modellerini React arayüzü ve FastAPI servisleriyle birleştiren akademik siber güvenlik projesi.
+
+[Mimari](#mimari-ve-karar-akışı) · [Deney sonuçları](#deney-sonuçları) · [Kurulum](#yerel-kurulum) · [Sınırlar](#kapsam-ve-sınırlar)
 
 </div>
 
 ---
 
-## Öne Çıkanlar
+## Problem ve yaklaşım
 
-- 30 özellik üzerinden risk analizi
-- Random Forest, Extra Trees ve stacking karşılaştırması
-- React arayüzüyle tahmin ve risk faktörlerinin sunumu
+Oltalama bağlantılarının değerlendirilmesi için URL göstergeleri ile öğrenilmiş sınıflandırma modelleri birlikte incelenir. Proje; altı modelin karşılaştırılmasını, özellik önemlerinin raporlanmasını ve model kararının kullanıcıya sunulmasını tek bir çalışma akışında toplar.
 
-## Teknolojiler
+## Mimari ve karar akışı
 
-Python · FastAPI · React
+```mermaid
+flowchart LR
+    A[URL girişi] --> B[Tarayıcıda özellik hazırlama]
+    B --> C[FastAPI /predict]
+    C --> D[Kaydedilmiş ML modeli]
+    D --> E[Ham karar ve olasılıklar]
+    E --> F[Arayüzde URL kuralları]
+    F --> G[Nihai sonuç ve risk göstergeleri]
+    G --> H[CSV analiz kaydı]
+```
+
+- **Eğitim:** ARFF verisi → katmanlı %80/%20 bölme → altı model → F1 ile model seçimi → `best_model.pkl` ve `metrics.json`.
+- **API:** URL yerine 30 özellikli JSON kabul eder; model tahmini ve varsa sınıf olasılıklarını döndürür.
+- **Arayüz:** URL’den bazı göstergeleri çıkarır, kalan özelliklere varsayılan değerler verir. URL kuralları ham model kararını değiştirebilir.
+
+## Deney sonuçları
+
+Aşağıdaki değerler [metrics.json](metrics.json) dosyasındaki kayıtlı deneyden alınmıştır; bu README düzenlemesinde modeller yeniden eğitilmemiştir.
+
+| Model | Accuracy | Precision | Recall | F1 | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Random Forest | 97.38% | 97.11% | 98.21% | 97.66% | 99.78% |
+| XGBoost | 96.74% | 96.18% | 98.05% | 97.10% | 99.60% |
+| SVM | 94.89% | 94.02% | 96.99% | 95.48% | 98.96% |
+| YSA | 96.79% | 95.81% | 98.54% | 97.16% | 99.57% |
+| Extra Trees | 97.60% | 97.50% | 98.21% | 97.86% | 99.46% |
+| Stacking Ensemble | 97.60% | 97.27% | 98.46% | 97.86% | 99.80% |
+
+[train_models.py](train_models.py), `test_size=0.2`, `stratify=y` ve `random_state=42` kullanır. Kayıtlı confusion matrix'lerde test kümesi **2.211 örnektir**. Stacking içinde beş katlı çapraz doğrulama vardır; en iyi model seçimi aynı test kümesindeki F1 üzerinden yapılır. Ayrı bir nihai doğrulama kümesiyle sonuçların teyidi gerekir.
+
+Stacking için kayıtlı matris `[[946, 34], [19, 1212]]` şeklindedir. Kodun pozitif sınıf yorumuna göre yanlış pozitif oranı **34 / 980 = %3,47**’dir. Veri kümesinin etiket semantiği canlı kullanımdan önce ayrıca doğrulanmalıdır.
 
 <details>
-<summary><strong>Kurulum, kullanım ve teknik ayrıntılar</strong></summary>
+<summary><strong>Model karşılaştırma grafiği</strong></summary>
 
-Bu proje, internet kullanıcılarını hedef alan phishing (oltalama) web sitelerini tespit etmek amacıyla geliştirilmiş, makine öğrenmesi tabanlı bir analiz sistemidir. Sistem, web sitelerinin yapısal özelliklerini inceleyerek ilgili bağlantının güvenli mi yoksa oltalama amaçlı mı olduğunu yüksek doğrulukla tahmin eder.
+![Kayıtlı model metrikleri](report_figures/model_metrics_comparison.png)
 
----
-
-## Proje Hakkında
-
-PhishGuard, bir web sitesinin risk durumunu belirlemek için URL yapısı, alan adı bilgileri, güvenlik göstergeleri ve web trafiği gibi **30 farklı niteliği** analiz eder.
-
-Geleneksel kara liste yöntemlerinin aksine, makine öğrenmesi kullanarak daha önce görülmemiş saldırı türlerini de tespit edebilecek esnek bir yapı sunar.
-
-## Temel Özellikler
-
-- **Çoklu Model Analizi**  
-  Random Forest, XGBoost, SVM, Yapay Sinir Ağı, Extra Trees ve Stacking Ensemble modelleri eğitilerek performansları karşılaştırılmıştır.
-
-- **Gerçek Zamanlı Tahmin**  
-  Kullanıcıdan alınan URL üzerinden anlık özellik çıkarımı ve risk analizi yapılır.
-
-- **Ensemble Learning Desteği**  
-  Birden fazla modelin birleşimi ile daha yüksek doğruluk elde edilmiştir.
-
-- **Uçtan Uca Mimari**  
-  FastAPI ile geliştirilen backend servisleri ve React tabanlı modern frontend arayüzü kullanılmıştır.
-
-- **Kullanıcı Bilgilendirme Sistemi**  
-  Tespit edilen risk faktörleri (SSL durumu, alan adı manipülasyonları vb.) kullanıcıya açıklayıcı şekilde sunulur.
-
----
-
-## Model Performansları
-
-Yapılan deneyler sonucunda ensemble tabanlı modellerin en yüksek başarıya ulaştığı görülmüştür.
-
-| Model | Accuracy | F1 Score | ROC-AUC |
-|------|------|------|------|
-| Stacking Ensemble | %97.60 | %97.86 | %99.80 |
-| Extra Trees | %97.60 | %97.86 | %99.46 |
-| Random Forest | %97.38 | %97.66 | %99.78 |
-
----
-
-## Karar Sürecindeki Kritik Özellikler
-
-Modelin tahmin başarısında en etkili olan temel özellikler:
-
-- **SSLfinal_State**  
-  Web sitesinin SSL/HTTPS güvenlik durumu
-
-- **URL_of_Anchor**  
-  Sayfa içi bağlantıların güvenilirlik analizi
-
-- **Web Traffic**  
-  Sitenin internet üzerindeki popülerlik ve trafik verisi
-
----
-
-## Teknoloji Yığını
-
-## Veri Bilimi
-- Python
-- Scikit-learn
-- Pandas
-- NumPy
-- XGBoost
-
-## Backend
-- FastAPI
-- Uvicorn
-- Pickle
-
-## Frontend
-- React
-- Vite
-- Tailwind CSS
-
----
-
-## Dosya Yapısı
-
-```plaintext
-phishing_websitesi/
-│
-├── backend/                   # FastAPI API servisleri
-├── frontend/                  # React kullanıcı arayüzü
-├── Training Dataset.arff      # 11.055 kayıtlı ana veri seti
-├── train_models.py            # Model eğitimi ve karşılaştırma scripti
-├── generate_report_figures.py # Grafik ve rapor üretim scriptleri
-├── best_model.pkl             # En başarılı model dosyası
-├── metrics.json               # Performans metrikleri
-├── prediction_logs.csv        # Tahmin kayıtları
-└── bilgi.md                   # Proje dokümantasyonu
-```
-
----
-
-## Kurulum
-
-## 1. Projeyi Klonlayın
-
-```bash
-git clone https://github.com/silanpehlivan/PhishGuard-ML.git
-cd phishing_websitesi
-```
-
----
-
-## 2. Backend Kurulumu
-
-```bash
-cd backend
-
-pip install -r requirements.txt
-
-uvicorn main:app --reload
-```
-
-Backend varsayılan olarak:
-
-```plaintext
-http://127.0.0.1:8000
-```
-
-adresinde çalışacaktır.
-
----
-
-## 3. Frontend Kurulumu
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
-Frontend varsayılan olarak:
-
-```plaintext
-http://localhost:5173
-```
-
-adresinde çalışacaktır.
-
----
-
-## Sistem Nasıl Çalışır?
-
-1. Kullanıcı sisteme bir URL girer.
-2. Sistem URL’den çeşitli güvenlik özelliklerini çıkarır.
-3. Eğitilmiş makine öğrenmesi modeli analizi gerçekleştirir.
-4. Sonuç:
-   - Güvenli
-   - Şüpheli
-   - Phishing
-
-olarak kullanıcıya sunulur.
-
----
-
-## Kullanılan Makine Öğrenmesi Modelleri
-
-- Random Forest
-- XGBoost
-- Support Vector Machine (SVM)
-- Artificial Neural Network (ANN)
-- Extra Trees Classifier
-- Stacking Ensemble
-
----
-
-## Projenin Amacı
-
-Bu proje;
-
-- Siber güvenlik farkındalığını artırmak,
-- Kullanıcıları oltalama saldırılarından korumak,
-- Makine öğrenmesi tabanlı güvenlik çözümleri geliştirmek
-
-amacıyla hazırlanmıştır.
-
----
-### Ders Sorumlusu
-- Dr. Öğr. Üyesi Emine AYAZ
----
-
-## Not
-
-Bu proje, akademik ve eğitim amaçlı geliştirilmiş bir siber güvenlik çalışmasıdır. Gerçek dünya kullanımında ek güvenlik kontrolleri ve sürekli model güncellemeleri önerilmektedir.
-
----
-
+Grafik üretimi: [generate_report_figures.py](generate_report_figures.py). Sayısal sonuçların kaynağı yukarıdaki JSON dosyasıdır.
 
 </details>
 
+## Kodu incelemeye başlayın
+
+| Dosya | İncelenecek konu |
+|---|---|
+| [train_models.py](train_models.py) | Veri bölme, ensemble tasarımı, model seçimi |
+| [backend/main.py](backend/main.py) | Özellik şeması, tahmin API’si, analiz kaydı |
+| [Home.jsx](frontend/src/pages/Home.jsx) | URL heuristikleri, karar değişimi ve kullanıcı sunumu |
+| [metrics.json](metrics.json) | Model metrikleri, confusion matrix ve özellik önemleri |
+
+## Yerel kurulum
+
+Depoda Python bağımlılıklarını sabitleyen bir requirements dosyası bulunmuyor. Aşağıdaki paketler kodun importlarından türetilen başlangıç kurulumudur; kaydedilmiş modelin üretildiği sürümlerle uyumluluk ayrıca doğrulanmalıdır.
+
+```powershell
+git clone https://github.com/silanpehlivan/PhishGuard-ML.git
+cd PhishGuard-ML
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install fastapi uvicorn pydantic joblib numpy pandas scipy scikit-learn xgboost
+python -m uvicorn backend.main:app --reload
+```
+
+İkinci terminalde:
+
+```powershell
+cd PhishGuard-ML/frontend
+npm ci
+npm run dev
+```
+
+Arayüz: `http://localhost:5173` · API belgeleri: `http://127.0.0.1:8000/docs`.
+
+Eğitimi tekrarlamak için depo kökünde `python train_models.py` çalıştırılır. Bu işlem mevcut model ve metrik dosyalarını yeniden yazar.
+
+## Kapsam ve sınırlar
+
+- Veri seti metrikleri, canlı URL akışının doğruluğunu ölçmez; eğitim özellikleri ile tarayıcıda hazırlanan özelliklerin dağılımı farklıdır.
+- HTTPS göstergesi URL protokolünden türetilir; TLS sertifikası doğrulaması veya canlı sayfa taraması yapılmış olduğu anlamına gelmez.
+- Arayüzde gösterilen güven değeri model olasılığı ve heuristik hesaplarla değiştirilir; kalibre edilmiş saldırı olasılığı olarak yorumlanmamalıdır.
+- API’de kimlik doğrulama ve rate limiting bulunmaz; CORS yapılandırması geniştir. Mevcut yapı yerel akademik prototiptir.
+- Analiz kayıtları URL’leri saklar. Gerçek kullanıcı verileri için veri minimizasyonu ve kayıt politikası belirlenmelidir.
+- Joblib/pickle modeli yalnızca güvenilir kaynaktan yüklenmelidir.
+
+## Geliştiriciler
+
+Şilan PEHLİVAN · Semanur YILDIRIM · İlayda ÖZTÜRK  
+Ders sorumlusu: Dr. Öğr. Üyesi Emine AYAZ
+
 ---
 
-<div align="center">
-
-**© 2026 Şilan PEHLİVAN, Semanur YILDIRIM and İlayda ÖZTÜRK**
-
-Bu proje MIT lisansı kapsamında sunulmaktadır. Kullanım ve dağıtım koşulları: [LICENCE](LICENCE).
-
-</div>
+**© 2026 Şilan PEHLİVAN, Semanur YILDIRIM ve İlayda ÖZTÜRK**  
+Kullanım ve dağıtım koşulları: [MIT lisansı](LICENCE).
