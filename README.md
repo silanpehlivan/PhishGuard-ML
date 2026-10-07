@@ -1,35 +1,63 @@
-# 🛡️ PhishGuard: Makine Öğrenmesi Tabanlı Phishing Web Sitesi Tespit Sistemi
+<div align="center">
+
+# PhishGuard ML
+
+**Makine öğrenmesiyle oltalama analizi**
+
+![Python](https://img.shields.io/badge/Python-2563eb?style=flat-square)
+![FastAPI](https://img.shields.io/badge/FastAPI-0891b2?style=flat-square)
+![React](https://img.shields.io/badge/React-7c3aed?style=flat-square)
+[![MIT License](https://img.shields.io/badge/License-MIT-16a34a?style=flat-square)](LICENCE)
+
+URL ve web sitesi özelliklerini makine öğrenmesi modelleriyle inceleyerek oltalama riskini değerlendiren akademik güvenlik projesi.
+
+</div>
+
+---
+
+## Öne Çıkanlar
+
+- 30 özellik üzerinden risk analizi
+- Random Forest, Extra Trees ve stacking karşılaştırması
+- React arayüzüyle tahmin ve risk faktörlerinin sunumu
+
+## Teknolojiler
+
+Python · FastAPI · React
+
+<details>
+<summary><strong>Kurulum, kullanım ve teknik ayrıntılar</strong></summary>
 
 Bu proje, internet kullanıcılarını hedef alan phishing (oltalama) web sitelerini tespit etmek amacıyla geliştirilmiş, makine öğrenmesi tabanlı bir analiz sistemidir. Sistem, web sitelerinin yapısal özelliklerini inceleyerek ilgili bağlantının güvenli mi yoksa oltalama amaçlı mı olduğunu yüksek doğrulukla tahmin eder.
 
 ---
 
-# 🚀 Proje Hakkında
+## Proje Hakkında
 
 PhishGuard, bir web sitesinin risk durumunu belirlemek için URL yapısı, alan adı bilgileri, güvenlik göstergeleri ve web trafiği gibi **30 farklı niteliği** analiz eder.
 
 Geleneksel kara liste yöntemlerinin aksine, makine öğrenmesi kullanarak daha önce görülmemiş saldırı türlerini de tespit edebilecek esnek bir yapı sunar.
 
-## ✨ Temel Özellikler
+## Temel Özellikler
 
-- 🔍 **Çoklu Model Analizi**  
+- **Çoklu Model Analizi**  
   Random Forest, XGBoost, SVM, Yapay Sinir Ağı, Extra Trees ve Stacking Ensemble modelleri eğitilerek performansları karşılaştırılmıştır.
 
-- ⚡ **Gerçek Zamanlı Tahmin**  
+- **Gerçek Zamanlı Tahmin**  
   Kullanıcıdan alınan URL üzerinden anlık özellik çıkarımı ve risk analizi yapılır.
 
-- 🧠 **Ensemble Learning Desteği**  
+- **Ensemble Learning Desteği**  
   Birden fazla modelin birleşimi ile daha yüksek doğruluk elde edilmiştir.
 
-- 🌐 **Uçtan Uca Mimari**  
+- **Uçtan Uca Mimari**  
   FastAPI ile geliştirilen backend servisleri ve React tabanlı modern frontend arayüzü kullanılmıştır.
 
-- 📊 **Kullanıcı Bilgilendirme Sistemi**  
+- **Kullanıcı Bilgilendirme Sistemi**  
   Tespit edilen risk faktörleri (SSL durumu, alan adı manipülasyonları vb.) kullanıcıya açıklayıcı şekilde sunulur.
 
 ---
 
-# 📊 Model Performansları
+## Model Performansları
 
 Yapılan deneyler sonucunda ensemble tabanlı modellerin en yüksek başarıya ulaştığı görülmüştür.
 
@@ -41,22 +69,22 @@ Yapılan deneyler sonucunda ensemble tabanlı modellerin en yüksek başarıya u
 
 ---
 
-# 🧩 Karar Sürecindeki Kritik Özellikler
+## Karar Sürecindeki Kritik Özellikler
 
 Modelin tahmin başarısında en etkili olan temel özellikler:
 
-- 🔐 **SSLfinal_State**  
+- **SSLfinal_State**  
   Web sitesinin SSL/HTTPS güvenlik durumu
 
-- 🔗 **URL_of_Anchor**  
+- **URL_of_Anchor**  
   Sayfa içi bağlantıların güvenilirlik analizi
 
-- 📈 **Web Traffic**  
+- **Web Traffic**  
   Sitenin internet üzerindeki popülerlik ve trafik verisi
 
 ---
 
-# 🛠️ Teknoloji Yığını
+## Teknoloji Yığını
 
 ## Veri Bilimi
 - Python
@@ -77,7 +105,7 @@ Modelin tahmin başarısında en etkili olan temel özellikler:
 
 ---
 
-# 📂 Dosya Yapısı
+## Dosya Yapısı
 
 ```plaintext
 phishing_websitesi/
@@ -95,18 +123,18 @@ phishing_websitesi/
 
 ---
 
-# ⚙️ Kurulum
+## Kurulum
 
-## 1️⃣ Projeyi Klonlayın
+## 1. Projeyi Klonlayın
 
 ```bash
-git clone <repo-link>
+git clone https://github.com/silanpehlivan/PhishGuard-ML.git
 cd phishing_websitesi
 ```
 
 ---
 
-## 2️⃣ Backend Kurulumu
+## 2. Backend Kurulumu
 
 ```bash
 cd backend
@@ -126,7 +154,7 @@ adresinde çalışacaktır.
 
 ---
 
-## 3️⃣ Frontend Kurulumu
+## 3. Frontend Kurulumu
 
 ```bash
 cd frontend
@@ -146,21 +174,21 @@ adresinde çalışacaktır.
 
 ---
 
-# 🔍 Sistem Nasıl Çalışır?
+## Sistem Nasıl Çalışır?
 
 1. Kullanıcı sisteme bir URL girer.
 2. Sistem URL’den çeşitli güvenlik özelliklerini çıkarır.
 3. Eğitilmiş makine öğrenmesi modeli analizi gerçekleştirir.
 4. Sonuç:
-   - ✅ Güvenli
-   - ⚠️ Şüpheli
-   - ❌ Phishing
+   - Güvenli
+   - Şüpheli
+   - Phishing
 
 olarak kullanıcıya sunulur.
 
 ---
 
-# 📈 Kullanılan Makine Öğrenmesi Modelleri
+## Kullanılan Makine Öğrenmesi Modelleri
 
 - Random Forest
 - XGBoost
@@ -171,7 +199,7 @@ olarak kullanıcıya sunulur.
 
 ---
 
-# 🎯 Projenin Amacı
+## Projenin Amacı
 
 Bu proje;
 
@@ -186,24 +214,21 @@ amacıyla hazırlanmıştır.
 - Dr. Öğr. Üyesi Emine AYAZ
 ---
 
-# 📌 Not
+## Not
 
 Bu proje, akademik ve eğitim amaçlı geliştirilmiş bir siber güvenlik çalışmasıdır. Gerçek dünya kullanımında ek güvenlik kontrolleri ve sürekli model güncellemeleri önerilmektedir.
 
 ---
 
-## 📜 Lisans
 
-Bu proje **MIT License** ile lisanslanmıştır. Detaylı bilgi için `LICENSE` dosyasını inceleyebilirsiniz.
+</details>
 
+---
 
+<div align="center">
 
-## 👩‍💻 Geliştiriciler
+**© 2026 Şilan PEHLİVAN, Semanur YILDIRIM and İlayda ÖZTÜRK**
 
-Bu çalışma, **Bitlis Eren Üniversitesi – Bilgisayar Mühendisliği Bölümü**, **Veri Madenciliği Dersi** kapsamında aşağıda isimleri yer alan geliştiriciler tarafından hazırlanmıştır:
+Bu proje MIT lisansı kapsamında sunulmaktadır. Kullanım ve dağıtım koşulları: [LICENCE](LICENCE).
 
-- Şilan PEHLİVAN  
-- Semanur YILDIRIM 
-- İlayda ÖZTÜRK  
-
-
+</div>
